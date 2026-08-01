@@ -1,4 +1,4 @@
-Name: Teleazawy CI
+name: Teleazawy CI
 
 on:
   workflow_dispatch:
@@ -56,7 +56,6 @@ jobs:
           rm -rf "$OUTPUT_PATH"
           mkdir -p "$OUTPUT_PATH"
           
-          # نسخ ملف الـ IPA باسم التطبيق الخاص بك Teleazawy.ipa
           for f in bazel-out/applebin_ios-ios_arm*-opt-ST-*/bin/Telegram/Telegram.ipa; do
             cp "$f" $OUTPUT_PATH/Teleazawy.ipa
           done
