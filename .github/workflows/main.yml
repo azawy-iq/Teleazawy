@@ -1,0 +1,34 @@
+name: Build Telegram Lite IPA
+
+on:
+  workflow_dispatch: # يتيح لك تشغيل البناء بضغطة زر يدوياً
+
+jobs:
+  build-ipa:
+    runs-on: macos-13 # استخدام سيرفر ماك من جيت هاب
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Install Dependencies
+        run: |
+          brew install bazel
+
+      - name: Build IPA File
+        run: |
+          python3 makefile.py --build
+          # كود استخراج الـ IPA
+          mkdir -p output
+          zip -r output/Teleazawy.ipa Payload/ 2>/dev/null || true
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Teleazawy-Lite-IPA
+          path: output/Teleazawy.ipa
